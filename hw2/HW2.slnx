@@ -1,0 +1,5 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/HW2.Web/HW2.Web.csproj" />
+  </Folder>
+</Solution>
