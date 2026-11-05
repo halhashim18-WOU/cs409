@@ -9,4 +9,8 @@ public interface IShowRepository : IRepository<Show>
     Show? ShowWithHighestTMDBPopularity();
 
     Show? ShowWithMostIMDBVotes();
+
+    IReadOnlyList<string> AvailableGenres();
+
+    DirectorShowSummary? DirectorWithMostShows();
 }

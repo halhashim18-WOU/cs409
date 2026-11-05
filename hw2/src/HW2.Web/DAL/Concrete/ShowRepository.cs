@@ -46,4 +46,57 @@ public class ShowRepository : Repository<Show>, IShowRepository
             .ThenBy(show => show.Id)
             .FirstOrDefault();
     }
+
+    public IReadOnlyList<string> AvailableGenres()
+    {
+        return _shows
+            .AsNoTracking()
+            .SelectMany(show => show.GenreAssignments)
+            .Select(assignment => assignment.Genre.GenreString)
+            .Distinct()
+            .OrderBy(genre => genre)
+            .ToList();
+    }
+
+    public DirectorShowSummary? DirectorWithMostShows()
+    {
+        var director = _shows
+            .AsNoTracking()
+            .SelectMany(
+                show => show.Credits.Where(credit => credit.Role.RoleName == "DIRECTOR"),
+                (show, credit) => new
+                {
+                    credit.PersonId,
+                    credit.Person.FullName,
+                    ShowId = show.Id
+                })
+            .GroupBy(item => new { item.PersonId, item.FullName })
+            .Select(group => new
+            {
+                group.Key.PersonId,
+                group.Key.FullName,
+                ShowCount = group.Select(item => item.ShowId).Distinct().Count()
+            })
+            .OrderByDescending(item => item.ShowCount)
+            .ThenBy(item => item.FullName)
+            .ThenBy(item => item.PersonId)
+            .FirstOrDefault();
+
+        if (director is null)
+        {
+            return null;
+        }
+
+        var showTitles = _shows
+            .AsNoTracking()
+            .Where(show => show.Credits.Any(credit =>
+                credit.PersonId == director.PersonId &&
+                credit.Role.RoleName == "DIRECTOR"))
+            .OrderBy(show => show.Title)
+            .ThenBy(show => show.Id)
+            .Select(show => show.Title)
+            .ToList();
+
+        return new DirectorShowSummary(director.FullName, showTitles);
+    }
 }
