@@ -49,6 +49,7 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : class, n
         return query;
     }
 
+    // Write operations save immediately instead of waiting for a separate unit of work.
     public virtual TEntity AddOrUpdate(TEntity entity)
     {
         ArgumentNullException.ThrowIfNull(entity);

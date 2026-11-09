@@ -4,14 +4,17 @@
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <!-- Identifies the local user-secrets store used for the connection string. -->
     <UserSecretsId>892ee60c-5722-498b-be4a-7135d8881fa4</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
+    <!-- Provides the EF Core tools used to generate models from the database. -->
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.12">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <!-- Allows EF Core to connect to SQL Server. -->
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.12" />
     <PackageReference Include="System.Security.Cryptography.Pkcs" Version="10.0.14" />
   </ItemGroup>

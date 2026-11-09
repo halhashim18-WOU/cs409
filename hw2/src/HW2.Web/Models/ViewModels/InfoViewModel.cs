@@ -9,6 +9,7 @@ public sealed class InfoViewModel
 
     public int TvShowCount { get; init; }
 
+    // Nullable ranking results allow the page to handle an empty database.
     public string? HighestTmdbPopularityShowTitle { get; init; }
 
     public double? HighestTmdbPopularity { get; init; }
@@ -17,6 +18,7 @@ public sealed class InfoViewModel
 
     public double? MostImdbVotes { get; init; }
 
+    // Empty collection defaults keep the Razor loops safe.
     public IReadOnlyList<string> Genres { get; init; } = [];
 
     public string? TopDirectorName { get; init; }

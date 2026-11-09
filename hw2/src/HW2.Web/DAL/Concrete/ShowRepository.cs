@@ -27,6 +27,7 @@ public class ShowRepository : Repository<Show>, IShowRepository
             counts.GetValueOrDefault("SHOW"));
     }
 
+    // Ignore missing values and use ID as a deterministic tie-breaker.
     public Show? ShowWithHighestTMDBPopularity()
     {
         return _shows
@@ -58,6 +59,7 @@ public class ShowRepository : Repository<Show>, IShowRepository
             .ToList();
     }
 
+    // Filter to director credits and count distinct shows so acting credits do not affect the result.
     public DirectorShowSummary? DirectorWithMostShows()
     {
         var director = _shows
@@ -87,6 +89,7 @@ public class ShowRepository : Repository<Show>, IShowRepository
             return null;
         }
 
+        // Fetch the winning director's titles separately in a stable display order.
         var showTitles = _shows
             .AsNoTracking()
             .Where(show => show.Credits.Any(credit =>

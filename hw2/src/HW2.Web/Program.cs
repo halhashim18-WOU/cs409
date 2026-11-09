@@ -7,8 +7,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Configure EF Core to use the SQL Server connection stored in user secrets.
 builder.Services.AddDbContext<StreamingDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("StreamingDatabase")));
+
+// Use one ShowRepository instance per web request.
 builder.Services.AddScoped<IShowRepository, ShowRepository>();
 
 var app = builder.Build();
