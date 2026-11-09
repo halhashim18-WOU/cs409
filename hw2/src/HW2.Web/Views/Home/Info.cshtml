@@ -1,0 +1,84 @@
+@model HW2.Web.Models.ViewModels.InfoViewModel
+
+@{
+    ViewData["Title"] = "Streaming Info";
+}
+
+<div class="mb-4">
+    <h1>Streaming Database Info</h1>
+    <p class="text-muted">A quick look at the movies and TV shows in our database.</p>
+</div>
+
+<div class="row g-3 mb-4 text-center">
+    <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body">
+                <h2 class="h5 card-title">All Shows</h2>
+                <p class="display-6 mb-0">@Model.TotalShows.ToString("N0")</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body">
+                <h2 class="h5 card-title">Movies</h2>
+                <p class="display-6 mb-0">@Model.MovieCount.ToString("N0")</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body">
+                <h2 class="h5 card-title">TV Shows</h2>
+                <p class="display-6 mb-0">@Model.TvShowCount.ToString("N0")</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-6">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body">
+                <h2 class="h5 card-title">Highest TMDB Popularity</h2>
+                <p class="fs-4 mb-1">@(Model.HighestTmdbPopularityShowTitle ?? "Not available")</p>
+                <p class="text-muted mb-0">Popularity: @(Model.HighestTmdbPopularity?.ToString("N3") ?? "Not available")</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body">
+                <h2 class="h5 card-title">Most IMDB Votes</h2>
+                <p class="fs-4 mb-1">@(Model.MostImdbVotesShowTitle ?? "Not available")</p>
+                <p class="text-muted mb-0">Votes: @(Model.MostImdbVotes?.ToString("N0") ?? "Not available")</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+        <h2 class="h5 card-title">Available Genres</h2>
+        <div class="d-flex flex-wrap gap-2">
+            @foreach (var genre in Model.Genres)
+            {
+                <span class="badge rounded-pill text-bg-secondary">@genre</span>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <h2 class="h5 card-title">Director With the Most Shows</h2>
+        <p class="fs-4 mb-3">@(Model.TopDirectorName ?? "Not available")</p>
+        <h3 class="h6">Directed titles (@Model.TopDirectorShowTitles.Count)</h3>
+        <div class="row">
+            @foreach (var title in Model.TopDirectorShowTitles)
+            {
+                <div class="col-md-6 col-lg-4 mb-2">@title</div>
+            }
+        </div>
+    </div>
+</div>

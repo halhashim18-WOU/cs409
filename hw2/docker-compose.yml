@@ -1,0 +1,20 @@
+# Local SQL Server used by the HW2 web app.
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: cs409-hw2-sqlserver
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: Developer
+      MSSQL_SA_PASSWORD: "${MSSQL_SA_PASSWORD}"
+    # Use the port from .env, or default to SQL Server's standard port.
+    ports:
+      - "${MSSQL_PORT:-1433}:1433"
+    # Keep database files when the container is recreated.
+    volumes:
+      - hw2-sqlserver-data:/var/opt/mssql
+    restart: unless-stopped
+
+volumes:
+  hw2-sqlserver-data:
+
