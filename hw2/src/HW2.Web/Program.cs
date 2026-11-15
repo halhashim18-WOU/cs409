@@ -8,6 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+// Generate an OpenAPI description for the API controllers added in HW3.
+builder.Services.AddOpenApi();
+
 // Configure EF Core to use the SQL Server connection stored in user secrets.
 builder.Services.AddDbContext<StreamingDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("StreamingDatabase")));
@@ -17,8 +20,16 @@ builder.Services.AddScoped<IShowRepository, ShowRepository>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+// Keep the API description and Swagger testing page limited to development.
+if (app.Environment.IsDevelopment())
+{
+    app.MapOpenApi();
+    app.UseSwaggerUi(settings =>
+    {
+        settings.DocumentPath = "/openapi/v1.json";
+    });
+}
+else
 {
     app.UseExceptionHandler("/Home/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
