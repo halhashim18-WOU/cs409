@@ -18,6 +18,9 @@ builder.Services.AddDbContext<StreamingDbContext>(options =>
 // Use one ShowRepository instance per web request.
 builder.Services.AddScoped<IShowRepository, ShowRepository>();
 
+// Use one PersonRepository instance per request for the HW3 actor features.
+builder.Services.AddScoped<IPersonRepository, PersonRepository>();
+
 var app = builder.Build();
 
 // Keep the API description and Swagger testing page limited to development.
