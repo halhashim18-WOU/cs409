@@ -5,7 +5,9 @@ namespace HW2.Web.DAL.Abstract;
 
 public interface IPersonRepository : IRepository<Person>
 {
-    Task<IReadOnlyList<ActorSearchResultDto>> SearchActorsAsync(
+    Task<PagedResultDto<ActorSearchResultDto>> SearchActorsAsync(
         string name,
+        int page,
+        int pageSize,
         CancellationToken cancellationToken = default);
 }

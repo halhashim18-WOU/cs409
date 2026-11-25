@@ -17,14 +17,16 @@ public class ActorsController : ControllerBase
     }
 
     [HttpGet("actor")]
-    [ProducesResponseType<IReadOnlyList<ActorSearchResultDto>>(StatusCodes.Status200OK)]
+    [ProducesResponseType<PagedResultDto<ActorSearchResultDto>>(StatusCodes.Status200OK)]
     [ProducesResponseType<ValidationProblemDetails>(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<IReadOnlyList<ActorSearchResultDto>>> Search(
+    public async Task<ActionResult<PagedResultDto<ActorSearchResultDto>>> Search(
         [FromQuery] ActorSearchRequest request,
         CancellationToken cancellationToken)
     {
         var results = await _personRepository.SearchActorsAsync(
             request.Name,
+            request.Page,
+            request.PageSize,
             cancellationToken);
 
         return Ok(results);
